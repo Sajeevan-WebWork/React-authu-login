@@ -1,0 +1,13 @@
+/* @keyframes pulse-animation {
+    0% {
+      box-shadow: 0 0 0 0px #f0ebf6d8;
+    }
+    100% {
+      box-shadow: 0 0 0 20px #f5f0fad8;
+    }
+  }
+
+  .animation-pulse {
+    transition: 1s all;
+      animation: pulse-animation 2s infinite;
+    } */

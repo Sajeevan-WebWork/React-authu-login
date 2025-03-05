@@ -6,6 +6,7 @@ import './index.css';
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import DemoPage from "./components/DemoPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import { Toaster } from "react-hot-toast";
@@ -18,7 +19,7 @@ createRoot(document.getElementById('root')).render(
 
         <Route path='/' element={
           <PublicRoute>
-            <Signup />
+            <Login />
           </PublicRoute>
         } />
 
@@ -31,6 +32,12 @@ createRoot(document.getElementById('root')).render(
         <Route path='/login' element={
           <PublicRoute>
             <Login />
+          </PublicRoute>
+        } />
+
+        <Route path='/demopage' element={
+          <PublicRoute>
+            <DemoPage />
           </PublicRoute>
         } />
 
