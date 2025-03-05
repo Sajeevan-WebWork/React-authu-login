@@ -1,45 +1,23 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Images from '../assets/lock-icon.svg';
-import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
 import { Eye, EyeClosed } from "lucide-react";
 
-const Login = () => {
+const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
 
-        try {
-            const response = await axios.post("https://6gb786nm-5000.inc1.devtunnels.ms/api/auth/login", {
-                email,
-                password,
-            });
-
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-
-            toast.success("Login successfully");
-            navigate("/home");
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Login Failed");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            <div className="h-screen w-screen bg-[#f8f4fc] flex items-center justify-center">
+    const ForgotPassword = async () => {
+        
+    }
+  return (
+    <>
+    <div className="h-screen w-screen bg-[#f8f4fc] flex items-center justify-center">
                 {/* Background Design */}
                 <span className="absolute w-[18rem] sm:w-[35rem] md:w-[50rem] h-[18rem] sm:h-[35rem] md:h-[50rem] border-2 border-[#b88ae62e] rounded-full bg-transparent"></span>
                 <span className="absolute w-[12rem] sm:w-[25rem] md:w-[40rem] h-[12rem] sm:h-[25rem] md:h-[40rem] rounded-full bg-[#ede6f4]"></span>
@@ -49,13 +27,13 @@ const Login = () => {
                 <motion.form
                     initial={{ y: 30, scale: 0.95 }}
                     animate={{ y: 0, scale: 1, transition: { duration: 0.3 } }}
-                    onSubmit={handleLogin}
-                    className="bg-white h-[calc(100vh)] w-[calc(100%)] sm:w-[25rem] md:w-[28rem] sm:h-[calc(100%-30%)] sm:rounded-2xl flex flex-col justify-center items-center gap-6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-6 py-10 z-50"
+                    onSubmit={ForgotPassword}
+                    className="bg-white w-[90%] sm:w-[25rem] md:w-[28rem] sm:h-auto sm:rounded-2xl flex flex-col justify-center items-center gap-6 p-8 shadow-lg z-50"
                 >
                     <img src={Images} className="w-18" alt="icon" />
 
                     <div className="text-center">
-                        <h3 className="text-lg font-semibold">Welcome to Saferly!</h3>
+                        <h3 className="text-lg font-semibold">Forgot your Password!</h3>
                         <p className="text-sm pt-1 font-normal text-gray-500">Keep your data safe!</p>
                     </div>
 
@@ -83,35 +61,6 @@ const Login = () => {
                             </label>
                         </motion.div>
 
-                        {/* Password Input */}
-                        <motion.div
-                            initial={{ y: 20 }}
-                            animate={{ y: 0, transition: { duration: 0.3, delay: 0.2 } }}
-                            className="relative w-full"
-                        >
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                className="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-[#965bc3] peer"
-                                placeholder=" "
-                            />
-                            <label
-                                htmlFor="password"
-                                className="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#965bc3]  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
-                            >
-                                Password
-                            </label>
-                            <span
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute top-4 right-5 cursor-pointer hover:scale-105 transition-all"
-                            >
-                                {showPassword ? <Eye className="w-5 h-5 text-gray-500" /> : <EyeClosed className="w-5 h-5 text-gray-500" />}
-                            </span>
-                        </motion.div>
-
                         {/* Login Button */}
                         <button
                             type="submit"
@@ -129,21 +78,18 @@ const Login = () => {
                                         </div>
                                     )
                                     :
-                                    "Login"
+                                    "Forgot Password"
                             }
                         </button>
                     </div>
 
-                    <Link to={'/forgot-password'} className="text-base font-semibold text-[#965bc3] text-center">
-                        Forgot Password?
-                    </Link>
                     <p className="text-base font-medium text-center text-gray-400">
                         Don't have an account? <Link to="/signup" className="text-theme-500 font-bold">Register!</Link>
                     </p>
                 </motion.form>
             </div>
-        </>
-    );
-};
+    </>
+  )
+}
 
-export default Login;
+export default ForgotPassword

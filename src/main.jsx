@@ -10,6 +10,7 @@ import DemoPage from "./components/DemoPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import { Toaster } from "react-hot-toast";
+import ForgotPassword from "./components/ForgotPassword";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -35,9 +36,9 @@ createRoot(document.getElementById('root')).render(
           </PublicRoute>
         } />
 
-        <Route path='/demopage' element={
+        <Route path='/forgot-password' element={
           <PublicRoute>
-            <DemoPage />
+            <ForgotPassword />
           </PublicRoute>
         } />
 

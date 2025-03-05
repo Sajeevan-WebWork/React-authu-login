@@ -23,12 +23,13 @@ const Home = () => {
   const fetchUserDetails = async () => {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/user", {
+      const res = await axios.get("https://6gb786nm-5000.inc1.devtunnels.ms/api/auth/user", {
         headers: { Authorization: `${token}` },
       });
       setUser(res.data);
     } catch (error) {
       console.error("Fetching User Details Failed", error.response.data);
+      handleLogout()
     }
   };
 

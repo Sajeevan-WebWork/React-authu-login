@@ -24,7 +24,7 @@ const Signup = () => {
         setLoading(true)
 
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/signup', {
+            const response = await axios.post('https://6gb786nm-5000.inc1.devtunnels.ms/api/auth/signup', {
                 name,
                 email,
                 password,
@@ -145,7 +145,7 @@ const Signup = () => {
                             </button>
                         </div>
 
-                        <p className='text-base font-medium text-center text-gray-400'>Already have an account? <Link to={'/'} className='text-[#965bc3] font-bold'>Login</Link></p>
+                        <p className='text-base font-medium text-center text-gray-400'>Already have an account? <Link to={'/'} className='text-theme-500 font-bold'>Login</Link></p>
                     </motion.form>
                 </div>
             </div>

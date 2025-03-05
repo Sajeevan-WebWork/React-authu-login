@@ -8,3 +8,18 @@
     font-style: normal;
     /* border: 1px solid #000000; */
 }
+
+
+@theme {
+    --color-theme-50: #f4f0ff;
+    --color-theme-100: #ede4ff;
+    --color-theme-200: #dccdff;
+    --color-theme-300: #c3a6ff;
+    --color-theme-400: #a873ff;
+    --color-theme-500: #903bff;
+    --color-theme-600: #8814ff;
+    --color-theme-700: #7900fad9;
+    --color-theme-800: #6801d6;
+    --color-theme-900: #5603af;
+    --color-theme-950: #340077;
+}
