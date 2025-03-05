@@ -23,8 +23,9 @@ const Signup = () => {
         e.preventDefault();
         setLoading(true)
 
+
         try {
-            const response = await axios.post('https://6gb786nm-5000.inc1.devtunnels.ms/api/auth/signup', {
+            const response = await axios.post("http://localhost:5000/api/auth/signup", {
                 name,
                 email,
                 password,
