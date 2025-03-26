@@ -46,7 +46,10 @@ const Signup = () => {
             const data = await res.json();
 
             toast.success(data.message);
-            navigate('/login')
+
+            if (res.ok) {
+                navigate('/login')
+            }
 
 
             if (!res.ok) {

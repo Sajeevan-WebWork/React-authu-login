@@ -156,9 +156,9 @@ const Login = () => {
                         </button>
                     </div>
 
-                    <Link to={'/forgot-password'} className="text-base font-semibold text-[#965bc3] text-center">
+                    {/* <Link to={'/forgot-password'} className="text-base font-semibold text-[#965bc3] text-center">
                         Forgot Password?
-                    </Link>
+                    </Link> */}
                     <p className="text-base font-medium text-center text-gray-400">
                         Don't have an account? <Link to="/signup" className="text-theme-500 font-bold">Register!</Link>
                     </p>
