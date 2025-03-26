@@ -9,30 +9,52 @@ import toast from "react-hot-toast";
 import { Eye, EyeClosed } from "lucide-react";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const API_URL = window.location.hostname === "login-auth-32bdd.web.app"
+        ? import.meta.env.VITE_API_URL
+        : "http://localhost:5000";
+
+    const API_KEY = import.meta.env.VITE_API_SECRET_KEY;
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setIsLoading(true);
+
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
-                email,
-                password,
+            const res = await fetch(`${API_URL}/api/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": API_KEY
+                },
+                body: JSON.stringify(formData)
             });
 
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
+            const data = await res.json();
 
-            toast.success("Login successfully");
-            navigate("/home");
+            console.log(data.token);
+
+            localStorage.setItem("token", data.token)
+
+            if (!res.ok) throw new Error(data.message);
+
+            toast.success("Login successful!", { style: { maxWidth: "800px" } });
+
+
+            setFormData({ email: "", password: "" });
+            navigate("/home"); // Redirect to home page after login
         } catch (error) {
-            toast.error(error.response?.data?.message || "Login Failed");
+            toast.error(error.message || "Login failed!");
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -46,9 +68,10 @@ const Login = () => {
 
                 {/* Login Form */}
                 <motion.form
+                    autoComplete="off"
                     initial={{ y: 30, scale: 0.95 }}
                     animate={{ y: 0, scale: 1, transition: { duration: 0.3 } }}
-                    onSubmit={handleLogin}
+                    onSubmit={handleSubmit}
                     className="bg-white h-[calc(100vh)] w-[calc(100%)] sm:w-[25rem] md:w-[28rem] sm:h-[calc(100%-30%)] sm:rounded-2xl flex flex-col justify-center items-center gap-6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-6 py-10 z-50"
                 >
                     <img src={Images} className="w-18" alt="icon" />
@@ -67,9 +90,9 @@ const Login = () => {
                         >
                             <input
                                 type="email"
-                                id="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                name="email"
+                                onChange={handleChange}
+                                value={formData.email}
                                 required
                                 className="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-[#965bc3] peer"
                                 placeholder=" "
@@ -90,9 +113,9 @@ const Login = () => {
                         >
                             <input
                                 type={showPassword ? "text" : "password"}
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                name="password"
+                                onChange={handleChange}
+                                value={formData.password}
                                 required
                                 className="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-[#965bc3] peer"
                                 placeholder=" "
@@ -117,7 +140,7 @@ const Login = () => {
                             className="cursor-pointer hover:bg-[#7900fad8] text-center flex items-center justify-center transition-all duration-300 hover:scale-101 active:scale-105 p-4 rounded-lg bg-[#7900fa] text-white text-md"
                         >
                             {
-                                loading ?
+                                isLoading ?
                                     (
                                         <div role="status">
                                             <svg aria-hidden="true" class="w-5 h-5 text-gray-200 animate-spin  fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">

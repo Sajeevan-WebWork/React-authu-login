@@ -36,9 +36,9 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    if (token) fetchUserDetails();
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) fetchUserDetails();
+  // }, [token]);
 
 
   return (

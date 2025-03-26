@@ -11,46 +11,56 @@ import { Eye, EyeClosed } from "lucide-react";
 import '../App.css'
 
 const Signup = () => {
-
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+
+    const API_URL = window.location.hostname === "login-auth-32bdd.web.app"
+        ? import.meta.env.VITE_API_URL
+        : "http://localhost:5000";
+
+    const API_KEY = import.meta.env.VITE_API_SECRET_KEY;
+
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        setLoading(true)
 
+        setIsLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/signup", {
-                name,
-                email,
-                password,
-            });
+            const res = await fetch(`${API_URL}/api/signup`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": API_KEY
+                },
+                body: JSON.stringify(formData)
+            })
 
-            toast.success(response.data.message)
-            console.log(response.status);
+            const data = await res.json();
 
-            if (response.status === 200 || response.status === 201) {
-                navigate('/login')
-            } else {
-                toast.success(response.data.message)
+            toast.success(data.message);
+            navigate('/login')
+
+
+            if (!res.ok) {
+                throw new Error(data.message)
             }
 
 
-
         } catch (error) {
-            toast.error(error.response?.data?.message || "signup failed")
-
+            toast.success(error)
         } finally {
-            setLoading(false)
+            toast.success(error)
+            setIsLoading(false)
         }
     }
-
-
 
     return (
         <>
@@ -62,6 +72,7 @@ const Signup = () => {
 
 
                     <motion.form
+                        autoComplete='off'
                         initial={{
                             y: 30,
                             scale: .95
@@ -91,7 +102,7 @@ const Signup = () => {
                                     transition: { duration: .3, delay: .1 }
                                 }}
                                 class="relative w-full">
-                                <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
+                                <input type="text" id="name" name='name' onChange={handleChange} value={formData.name} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
                                 <label for="name" class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#965bc3]  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Name</label>
                             </motion.div>
 
@@ -104,7 +115,7 @@ const Signup = () => {
                                     transition: { duration: .3, delay: .1 }
                                 }}
                                 class="relative w-full">
-                                <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
+                                <input type="email" id="email" name='email' onChange={handleChange} value={formData.email} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
                                 <label for="email" class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#965bc3]  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
                             </motion.div>
 
@@ -117,7 +128,7 @@ const Signup = () => {
                                     transition: { duration: .3, delay: .2 }
                                 }}
                                 class="relative w-full">
-                                <input type={showPassword ? "text" : "password"} id="passoword" value={password} onChange={(e) => setPassword(e.target.value)} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
+                                <input type={showPassword ? "text" : "password"} id="passoword" name='password' onChange={handleChange} value={formData.password} required class="block px-3 pb-3 pt-3 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#965bc3] peer" placeholder=" " />
                                 <label for="password" class="absolute text-base text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#965bc3]  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
                                 <span onClick={() => setShowPassword(!showPassword)} className="absolute top-4 right-5 cursor-pointer hover:scale-105 transition-all">
                                     {showPassword ? (
@@ -130,7 +141,7 @@ const Signup = () => {
 
                             <button type='submit' className='cursor-pointer flex justify-center hover:bg-[#7900fad8] transition-all duration-300 hover:scale-101 active:scale-105 p-4 rounded-lg bg-[#7900fa] text-white text-md'>
                                 {
-                                    loading ?
+                                    isLoading ?
                                         (
                                             <div role="status">
                                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-200 animate-spin  fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
