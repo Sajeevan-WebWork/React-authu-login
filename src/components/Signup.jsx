@@ -45,22 +45,18 @@ const Signup = () => {
 
             const data = await res.json();
 
-            toast.success(data.message);
-
-            if (res.ok) {
-                navigate('/login')
-            }
-
 
             if (!res.ok) {
                 throw new Error(data.message)
+            } else {
+                navigate('/login');
+                toast.success(data.message);
             }
 
 
         } catch (error) {
-            toast.success(error)
+            toast.error(error)
         } finally {
-            toast.success(error)
             setIsLoading(false)
         }
     }
