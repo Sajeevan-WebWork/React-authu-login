@@ -29,7 +29,7 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const res = await fetch(`${API_URL}/api/login`, {
+            const res = await fetch(`https://portfolio-backend-lake-xi.vercel.app/api/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

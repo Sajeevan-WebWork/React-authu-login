@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
   // Function to Fetch User Details
   const fetchUserDetails = async () => {
     if (!token) return;
-    
+
     try {
       const res = await axios.get("http://localhost:5000/api/auth/user", {
         headers: { Authorization: `${token}` },
@@ -56,10 +57,71 @@ const Home = () => {
           </div>
 
         ) : (
-          <div className="flex items-center justify-between container m-auto py-6 px-4">
-            <h2>Welcome {user ? user.name : "Guest"}</h2>
-            <button onClick={handleLogout} className="px-8 py-3 text-lg cursor-pointer hover:scale-103 active:scale-105 transition-all duration-300 rounded-lg bg-[#965bc3] text-white border-0 outline-0">Logout</button>
-          </div>
+          <>
+            <div className="flex items-center justify-between absolute top-0 left-0 right-0 container m-auto py-6 px-4">
+              <h2 className="text-2xl font-semibold uppercase">Login Auth</h2>
+              <button onClick={handleLogout} className="px-8 py-3 text-lg cursor-pointer hover:scale-103 active:scale-105 transition-all duration-300 rounded-lg bg-blue-600 text-white border-0 font-semibold outline-0">Logout</button>
+            </div>
+
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-6">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="bg-white shadow-2xl rounded-2xl p-8 max-w-2xl text-center"
+              >
+                {/* Welcome Header */}
+                <motion.h1
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="text-4xl font-extrabold text-gray-800 mb-4"
+                >
+                  🎉 Welcome & Thank You!
+                </motion.h1>
+
+                {/* Description */}
+                <p className="text-lg text-gray-600 mb-4 leading-relaxed">
+                  I'm thrilled to have you explore my latest project.
+                  Please share your valuable review on my
+                  <a
+                    href="https://sajeevan-web-dev.web.app/contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 font-semibold underline hover:text-blue-600 transition"
+                  >
+                    Portfolio Contact Page
+                  </a>
+                  .
+                </p>
+
+                {/* Call to Action Card */}
+                <motion.div
+                  initial={{ scale: 0.95 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg shadow-lg p-6"
+                >
+                  <p className="text-lg font-medium">
+                    Need a <strong>WordPress Website</strong> or <strong>Freelance Work</strong>?
+                    Feel free to reach out to **Sajeevan TechWork**!
+                  </p>
+                </motion.div>
+
+                {/* Contact Button */}
+                <motion.a
+                  href="mailto:sajeevantechwork@example.com"
+                  className="mt-6 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-lg 
+            hover:bg-blue-700 transition duration-300 hover:-translate-y-1 transform"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  📩 Contact Me
+                </motion.a>
+              </motion.div>
+            </div>
+          </>
+
         )
       }
     </>
